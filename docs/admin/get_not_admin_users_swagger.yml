@@ -1,0 +1,134 @@
+tags:
+  - Admin
+summary: Retrieve all non-admin users
+description: Retrieves all users in the application who do not have the admin role. Only accessible by admin users.
+parameters:
+  - name: Authorization
+    in: header
+    type: string
+    required: true
+    description: Bearer JWT token
+    example: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+responses:
+  200:
+    description: Users retrieved successfully
+    schema:
+      type: array
+      items:
+        type: object
+        properties:
+          id_user:
+            type: integer
+            example: 1
+          user_role_id:
+            type: integer
+            example: 2
+          user_role_name:
+            type: string
+            example: "User"
+          name:
+            type: string
+            example: "aitor"
+          surname:
+            type: string
+            example: "nvooa"
+          username:
+            type: string
+            example: "aitor_n_a"
+          born_date:
+            type: string
+            format: date
+            example: "Wed, 03 Mar 1999 00:00:00 GMT"
+          library_name:
+            type: string
+            example: "a"
+          is_blocked:
+            type: boolean
+            example: false
+          is_erased:
+            type: boolean
+            example: false
+          block_date:
+            type: string
+            format: date
+            example: null
+          delete_date:
+            type: string
+            format: date
+            example: null
+          security_question:
+            type: string
+            example: "a"
+    examples:
+      application/json:
+        - id_user: 1
+          user_role_id: 2
+          user_role_name: "User"
+          name: "aitor"
+          surname: "nvooa"
+          username: "aitor_n_a"
+          born_date: "Wed, 03 Mar 1999 00:00:00 GMT"
+          library_name: "a"
+          is_blocked: false
+          is_erased: false
+          block_date: null
+          delete_date: null
+          security_question: "a"
+        - id_user: 2
+          user_role_id: 2
+          user_role_name: "User"
+          name: "prueba1"
+          surname: "prueba1"
+          username: "prueba1"
+          born_date: "Fri, 03 Sep 1999 00:00:00 GMT"
+          library_name: "LibreriaPrueba1"
+          is_blocked: false
+          is_erased: false
+          block_date: null
+          delete_date: null
+          security_question: "prueba1"
+
+  401:
+    description: Unauthorized. JWT missing or invalid
+    schema:
+      type: object
+      properties:
+        msg:
+          type: string
+        code:
+          type: string
+    examples:
+      application/json:
+        msg: "Unauthorized. JWT missing or invalid"
+        code: "1006"
+
+  403:
+    description: Forbidden. User is not admin
+    schema:
+      type: object
+      properties:
+        msg:
+          type: string
+        code:
+          type: string
+    examples:
+      application/json:
+        msg: "Forbidden. You do not have admin permissions"
+        code: "1007"
+
+  404:
+    description: The user is not found
+    schema:
+      type: object
+      properties:
+        msg:
+          type: string
+        code:
+          type: string
+    examples:
+      application/json:
+        msg: "The user is not found"
+        code: "1004"
+
+  500:
+    description: Internal server error while retrieving users

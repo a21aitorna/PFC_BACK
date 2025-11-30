@@ -1,0 +1,61 @@
+tags:
+  - Books
+summary: Downloads a book file
+description: Downloads the file associated with a book, if it exists in the server storage.
+produces:
+  - application/pdf
+  - application/epub
+
+parameters:
+  - in: path
+    name: id_book
+    required: true
+    type: integer
+    example: 3
+
+responses:
+  200:
+    description: Book downloaded successfully
+
+  400:
+    description: Bad request — the book exists but has no associated file
+    schema:
+      type: object
+      properties:
+        msg:
+          type: string
+        code:
+          type: string
+    examples:
+      application/json:
+        msg: "The book has no attached file to download"
+        code: "3010"
+
+  404:
+    description: Book not found or file missing in the filesystem
+    schema:
+      type: object
+      properties:
+        msg:
+          type: string
+        code:
+          type: string
+    examples:
+      application/json:
+        possible_errors:
+          - { msg: "Book not found", code: "4004"}
+          - { msg: "The book file could not be found", code: "4010" }
+ 
+  500:
+    description: Internal server error while downloading the book
+    schema:
+      type: object
+      properties:
+        msg:
+          type: string
+        code:
+          type: string
+        examples:
+          application/json:
+            msg: "An error occurred while downloading the book"
+            code: "9002"

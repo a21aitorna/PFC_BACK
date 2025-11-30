@@ -1,0 +1,84 @@
+tags:
+  - Books
+summary: Get books uploaded by a user
+description: Returns a list of all books uploaded by a specific user, including URLs for the book file and cover image.
+produces:
+  - application/json
+parameters:
+  - in: path
+    name: user_id
+    required: true
+    type: integer
+    description: ID of the user whose books are being requested
+
+responses:
+  200:
+    description: List of books retrieved successfully
+    schema:
+      type: array
+      items:
+        type: object
+        properties:
+          id_book:
+            type: integer
+          title:
+            type: string
+          author:
+            type: string
+          file:
+            type: string
+            description: URL of the uploaded book file
+          cover:
+            type: string
+            description: URL of the uploaded cover image
+    examples:
+      application/json:
+        - id_book: 1
+          title: "Mi primer libro"
+          author: "Autor Ejemplo"
+          file: "/uploads/books/mi_libro.pdf"
+          cover: "/uploads/covers/ejemplo.jpg"
+        - id_book: 2
+          title: "Segundo libro"
+          author: "Otro Autor"
+          file: "/uploads/books/segundo_libro.epub"
+          cover: null
+
+  400:
+    description: Bad request (invalid user_id)
+    schema:
+      type: object
+      properties:
+        msg:
+          type: string
+        code:
+          type: string
+    examples:
+      application/json:
+        msg: "Invalid user ID"
+        code: "4002"
+
+  404:
+    description: User not found
+    schema:
+      type: object
+      properties:
+        msg:
+          type: string
+        code:
+          type: string
+    examples:
+      application/json:
+        msg: "User not found"
+        code: "1004"
+
+  500:
+    description: Internal server error
+    schema:
+      type: object
+      properties:
+        error:
+          type: string
+    examples:
+      application/json:
+        error: "Error retrieving books from database"

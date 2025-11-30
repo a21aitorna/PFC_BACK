@@ -1,0 +1,79 @@
+tags:
+  - Admin
+summary: Block a user for 3 days
+description: Allows an admin to block a user for 3 days. Can be rectified (unblocked) within this period.
+parameters:
+  - name: Authorization
+    in: header
+    type: string
+    required: true
+    description: Bearer JWT token
+    example: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+  - name: id_user
+    in: path
+    type: integer
+    required: true
+    example: 2
+responses:
+  200:
+    description: User blocked successfully
+    schema:
+      type: object
+      properties:
+        message:
+          type: string
+          example: "User block for 3 days"
+        block_date:
+          type: string
+          format: date
+          example: "2025-11-20"
+    examples:
+      application/json:
+        message: "User block for 3 days"
+        block_date: "2025-11-20"
+
+  401:
+    description: Unauthorized. JWT missing or invalid
+    schema:
+      type: object
+      properties:
+        msg:
+          type: string
+        code:
+          type: string
+    examples:
+      application/json:
+        msg: "Unauthorized. JWT missing or invalid"
+        code: "1006"
+
+  403:
+    description: Forbidden. User is not admin
+    schema:
+      type: object
+      properties:
+        msg:
+          type: string
+        code:
+          type: string
+    examples:
+      application/json:
+        possible_errors:
+          - { msg: "Forbidden. You do not have admin permissions", code: "1007" }
+          - { msg: "Forbidden. Admin can not block itself", code: "1011" }
+
+  404:
+    description: The user is not found
+    schema:
+      type: object
+      properties:
+        msg:
+          type: string
+        code:
+          type: string
+    examples:
+      application/json:
+        msg: "Usuario no encontrado"
+        code: "1004"
+
+  500:
+    description: Internal server error while blocking user

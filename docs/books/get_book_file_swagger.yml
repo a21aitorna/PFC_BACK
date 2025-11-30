@@ -1,0 +1,43 @@
+tags:
+  - Books
+
+summary: Returns the book file
+description: >
+  Returns the book file (PDF or EPUB) stored on the server in the uploads/books directory.
+
+produces:
+  - application/pdf
+  - application/epub
+parameters:
+  - in: path
+    name: filename
+    required: true
+    type: string
+    example: "Harry_Potter.epub"
+
+responses:
+  200:
+    description: Book file retrieved successfully
+    schema:
+      type: string
+      format: binary
+    examples:
+      application/pdf: "(binary pdf data)"
+      application/epub: "(binary epub data)"
+
+  404:
+    description: Book file not found
+    schema:
+      type: object
+      properties:
+        msg:
+          type: string
+        code:
+          type: string
+    examples:
+      application/json:
+        msg: "Book file was not found"
+        code: "4016"
+
+  500:
+    description: Internal server error

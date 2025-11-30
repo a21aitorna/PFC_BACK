@@ -1,0 +1,100 @@
+tags:
+  - Reviews
+summary: Create a review for a book
+description: Allows a user to post a review for a specific book, including rating and review text.
+parameters:
+  - name: id_book
+    in: path
+    type: integer
+    required: true
+    example: 8
+
+  - in: body
+    name: body
+    required: true
+    schema:
+      type: object
+      required:
+        - user_id
+        - review_text
+        - rating
+      properties:
+        user_id:
+          type: integer
+          example: 3
+        review_text:
+          type: string
+          example: "Un libro fascinante, lo recomiendo."
+        rating:
+          type: number
+          format: float
+          example: 4.5
+
+responses:
+  201:
+    description: Review created successfully
+    schema:
+      type: object
+      properties:
+        message:
+          type: string
+          example: "Review created successfully"
+        review:
+          type: object
+          properties:
+            id_review:
+              type: integer
+              example: 10
+            user_id:
+              type: integer
+              example: 3
+            book_id:
+              type: integer
+              example: 8
+            review_text:
+              type: string
+              example: "Un libro fascinante, lo recomiendo."
+            book_rating:
+              type: integer
+              example: 9
+    examples:
+      application/json:
+        message: "Reseña creada correctamente"
+        review:
+          id_review: 10
+          user_id: 3
+          book_id: 8
+          review_text: "Un libro fascinante, lo recomiendo."
+          book_rating: 9
+
+  400:
+    description: Some data is missing
+    schema:
+      type: object
+      properties:
+        msg:
+          type: string
+        code:
+          type: string
+    examples:
+      application/json:
+        possible_errors:
+          - { msg: "Bad request. Some data is missing", code: "4018" }
+          - { msg: "Bad request. The rating is invalid (it must be 5 in the body as maximum)", code: "4023" }
+
+  404:
+    description: Book not found
+    schema:
+      type: object
+      properties:
+        msg:
+          type: string
+        code:
+          type: string
+    examples:
+      application/json:
+        msg: "Book not found"
+        code: "4016"
+
+  500:
+    description: Internal server error while creating review

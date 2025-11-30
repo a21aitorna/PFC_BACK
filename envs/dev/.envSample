@@ -1,0 +1,8 @@
+# DEBUG_MODE = True
+# MYSQL_HOST = nombreHost
+# MYSQL_USER = usuarioSQL
+# MYSQL_PASSWORD = contraseñaSQL
+# DATABASE_NAME = Nombre base de datos
+# SQLALCHEMY_TRACK_MODIFICATIONS = False
+# JWT_SECRET_KEY = clave JWT para firmar y verificar tokens jwt..
+#Crear un .env y replicar configuración

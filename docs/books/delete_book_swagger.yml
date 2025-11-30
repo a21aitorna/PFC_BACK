@@ -1,0 +1,82 @@
+tags:
+  - Books
+summary: Deletes a book from a user's library
+description: Deletes a specific book belonging to a user, including its physical files stored on the server.
+consumes:
+  - application/json
+produces:
+  - application/json
+
+parameters:
+  - in: path
+    name: user_id
+    required: true
+    type: integer
+    example: 15
+
+  - in: path
+    name: book_id
+    required: true
+    type: integer
+    example: 42
+
+responses:
+  200:
+    description: Book deleted successfully
+    schema:
+      type: object
+      properties:
+        msg:
+          type: string
+        code:
+          type: string
+    examples:
+      application/json:
+        msg: "Book deleted successfully"
+        code: "5000"
+
+  400:
+    description: Bad request (invalid parameters or delete operation failed)
+    schema:
+      type: object
+      properties:
+        msg:
+          type: string
+        code:
+          type: string
+    examples:
+      application/json:
+        - msg: "User ID must be provided"
+          code: "3001"
+        - msg: "Book ID must be provided for deletion"
+          code: "3002"
+        - msg: "Book could not be deleted"
+          code: "3003"
+
+  404:
+    description: User not found
+    schema:
+      type: object
+      properties:
+        msg:
+          type: string
+        code:
+          type: string
+    examples:
+      application/json:
+        msg: "The user is not found"
+        code: "1004"
+
+  500:
+    description: Internal server error while deleting the book
+    schema:
+      type: object
+      properties:
+        msg:
+          type: string
+        code:
+          type: string
+    examples:
+      application/json:
+        msg: "An internal error occurred while deleting the book"
+        code: "9001"

@@ -1,0 +1,88 @@
+tags:
+  - Login
+summary: Login to the app
+description: Logins in the app and retrieves a JWT token depending on the role id of the user
+consumes:
+  - application/json
+produces:
+  - application/json
+parameters:
+  - in: body
+    name: body
+    required: true
+    schema:
+      type: object
+      required:
+        - username
+        - password
+      properties:
+        username:
+          type: string
+          example: "user123"
+        password:
+          type: string
+          example: "Password123."
+responses:
+  200:
+    description: Successful login
+    schema:
+      type: object
+      properties:
+        token:
+          type: string
+          example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+  400:
+    description: Bad request
+    schema:
+      type: object
+      properties:
+        msg:
+          type: string
+        code:
+          type: string
+    examples:
+      application/json:
+        possible_errors:
+          - { msg: "Bad request. Username and password are mandatory fields", "code": "1001"}
+          - { msg: "Bad request. Username is a mandatory field", "code": "1002"}
+          - { msg: "Bad request. Password is a mandatory field", "code": "1003"}
+  401:
+    description: Unauthorized
+    schema:
+      type: object
+      properties:
+        msg:
+          type: string
+          example: "Unauthorized. The credentials are wrong"
+        code:
+          type: string
+          example: "1005"
+
+    403:
+    description: Forbidden
+    schema:
+      type: object
+      properties:
+        msg:
+          type: string
+        code:
+          type: string
+    examples:
+      application/json:
+        possible_errors:
+          - { msg: "Forbidden. User blocked can not login", "code":"1013" }
+          - { msg: "Forbidden. User deleted can not login","code":"1014" }
+
+  404:
+    description: User not found
+    schema:
+      type: object
+      properties:
+        msg:
+          type: string
+          example: "The user is not found"
+        code:
+          type: string
+          example: "1004"
+  500: 
+    description: Internal server error

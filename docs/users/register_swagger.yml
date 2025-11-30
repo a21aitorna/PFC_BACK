@@ -1,0 +1,88 @@
+tags:
+  - Register
+summary: Register a new user
+description: Creates a new user in the app.
+consumes:
+  - application/json
+produces:
+  - application/json
+parameters:
+  - in: body
+    name: body
+    required: true
+    schema:
+      type: object
+      required:
+        - name
+        - surname
+        - username
+        - password
+        - repeat_password
+        - born_date
+        - library_name
+        - security_question
+        - answer
+      properties:
+        name:
+          type: string
+          example: "usuario"
+        surname:
+          type: string
+          example: "usuario1"
+        username:
+          type: string
+          example: "user123"
+        password:
+          type: string
+          example: "Password123."
+        repeat_password:
+          type: string
+          example: "Password123."
+        born_date:
+          type: string
+          format: date
+          example: "2005-11-01"
+        library_name:
+          type: string
+          example: "Biblioteca X"
+        security_question:
+          type: string
+          example: "¿Cuál es tu color favorito?"
+        answer:
+          type: string
+          example: "Azul"
+
+responses:
+  201:
+    description: User created successfully
+    schema:
+      type: object
+      properties:
+        msg:
+          type: string
+          example: "Created. The user was registered correctly"
+        code:
+          type: string
+          example: "2007"
+
+  400:
+    description: Bad request (various possible causes)
+    schema:
+      type: object
+      properties:
+        msg:
+          type: string
+        code:
+          type: string
+    examples:
+      application/json:
+        possible_errors:
+          - { msg: "Bad request. All the fields are mandatory", code: "2001" }
+          - { msg: "Bad request. Passwords do not match", code: "2002" }
+          - { msg: "Bad request. The password is invalid", code: "2003" }
+          - { msg: "Bad request. Invalid date format", code: "2004" }
+          - { msg: "Bad request. The user must be over 14", code: "2005" }
+          - { msg: "Bad request. The username already exists", code: "2006" }
+
+  500:
+    description: Internal server error

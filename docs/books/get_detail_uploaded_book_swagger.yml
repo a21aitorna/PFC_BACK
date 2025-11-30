@@ -1,0 +1,77 @@
+tags:
+  - Books
+summary: Get detailed information about an uploaded book
+description: Retrieves detailed information of a specific uploaded book, including rating, file/cover URLs, and metadata.
+parameters:
+  - name: id_book
+    in: path
+    type: integer
+    required: true
+    example: 12
+
+responses:
+  200:
+    description: Detail of the uploaded book retrieved successfully
+    schema:
+      type: object
+      properties:
+        id_book:
+          type: integer
+          example: 12
+        title:
+          type: string
+          example: "El Principito"
+        author:
+          type: string
+          example: "Antoine de Saint-Exupéry"
+        cover:
+          type: string
+          example: "http://localhost:5000/api/books/cover/portada123.jpg"
+        file:
+          type: string
+          example: "http://localhost:5000/api/books/file/libro123.pdf"
+        upload_date:
+          type: string
+          format: date-time
+          example: "2025-11-25T14:32:10"
+        rating:
+          type: number
+          format: float
+          example: 4.5
+    examples:
+      application/json:
+        id_book: 12
+        title: "El Principito"
+        author: "Antoine de Saint-Exupéry"
+        cover: "http://localhost:5000/api/books/cover/portada123.jpg"
+        file: "http://localhost:5000/api/books/file/libro123.pdf"
+        upload_date: "2025-11-25T14:32:10"
+        rating: 4.5
+
+  404:
+    description: Book not found
+    schema:
+      type: object
+      properties:
+        msg:
+          type: string
+        code:
+          type: string
+    examples:
+      application/json:
+        msg: "Book not found"
+        code: "4016"
+
+  500:
+    description: Internal server error when retrieving book detail
+    schema:
+      type: object
+      properties:
+        msg:
+          type: string
+        code:
+          type: string
+    examples:
+      application/json:
+        msg: "Error getting the book detail"
+        code: "4017"

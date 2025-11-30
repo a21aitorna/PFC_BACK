@@ -1,0 +1,49 @@
+tags:
+  - Users search
+summary: Search users or libraries
+description: Returns a list of users whose username or library name matches the searched text.
+consumes:
+  - application/json
+produces:
+  - application/json
+
+parameters:
+  - in: query
+    name: text
+    required: false
+    type: string
+    example: "user1"
+
+responses:
+  200:
+    description: Users found successfully
+    schema:
+      type: array
+      items:
+        type: object
+        properties:
+          id:
+            type: string
+          username:
+            type: string
+          libraryName:
+            type: string
+    examples:
+      application/json:
+        - id: "1"
+          libraryName: "Biblioteca X"
+          username: "user123"
+
+  500:
+    description: Internal server error during user search
+    schema:
+      type: object
+      properties:
+        msg:
+          type: string
+        code:
+          type: string
+    examples:
+      application/json:
+        msg: "An error occurred while searching for users"
+        code: "4014"

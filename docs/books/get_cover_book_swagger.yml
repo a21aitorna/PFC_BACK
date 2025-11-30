@@ -1,0 +1,42 @@
+tags:
+  - Books
+summary: Returns the cover image of a book
+description: Returns the book's cover image stored in the server under uploads/covers.
+produces:
+  - image/jpeg
+  - image/png
+  - application/octet-stream
+  - application/json
+
+parameters:
+  - in: path
+    name: filename
+    required: true
+    type: string
+    example: "harry_potter_cover.jpg"
+
+responses:
+  200:
+    description: Book cover retrieved successfully
+    schema:
+      type: string
+      format: binary
+    examples:
+      image/jpeg: "(binary image data)"
+
+  404:
+    description: Book cover not found
+    schema:
+      type: object
+      properties:
+        msg:
+          type: string
+        code:
+          type: string
+    examples:
+      application/json:
+        msg: "Book cover was not found"
+        code: "4015"
+
+  500:
+    description: Internal server error

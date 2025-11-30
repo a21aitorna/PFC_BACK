@@ -1,0 +1,58 @@
+tags:
+  - Users library
+summary: Returns the user's library name
+description: Returns the user's library name so it can be displayed in the frontend.
+consumes:
+  - application/json
+produces:
+  - application/json
+
+parameters:
+  - in: query
+    name: id_user
+    required: true
+    type: string
+    example: "1"
+
+responses:
+  200:
+    description: Library name retrieved successfully
+    schema:
+      type: object
+      properties:
+        library_name:
+          type: string
+    examples:
+      application/json:
+        library_name: "Biblioteca X"
+
+  400:
+    description: Bad request
+    schema:
+      type: object
+      properties:
+        msg:
+          type: string
+        code:
+          type: string
+    examples:
+      application/json:
+        msg: "Bad request. The id_user was not provided"
+        code: "4013"
+
+  404:
+    description: User not found
+    schema:
+      type: object
+      properties:
+        msg:
+          type: string
+        code:
+          type: string
+    examples:
+      application/json:
+        msg: "The user is not found"
+        code: "1004"
+
+  500:
+    description: Internal server error

@@ -1,0 +1,73 @@
+tags:
+  - Admin
+summary: Unblock a user (rectify)
+description: Allows an admin to unblock a user who was previously blocked. Only accessible by admin users.
+parameters:
+  - name: Authorization
+    in: header
+    type: string
+    required: true
+    description: Bearer JWT token
+    example: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+  - name: id_user
+    in: path
+    type: integer
+    required: true
+    example: 2
+responses:
+  200:
+    description: User unblocked successfully
+    schema:
+      type: object
+      properties:
+        message:
+          type: string
+          example: "Rectified block"
+    examples:
+      application/json:
+        message: "Rectified block"
+
+  401:
+    description: Unauthorized. JWT missing or invalid
+    schema:
+      type: object
+      properties:
+        msg:
+          type: string
+        code:
+          type: string
+    examples:
+      application/json:
+        msg: "Unauthorized. JWT missing or invalid"
+        code: "1006"
+
+  403:
+    description: Forbidden. User is not admin
+    schema:
+      type: object
+      properties:
+        msg:
+          type: string
+        code:
+          type: string
+    examples:
+      application/json:
+        msg: "Forbidden. You do not have admin permissions"
+        code: "1007"
+
+  404:
+    description: The user is not found
+    schema:
+      type: object
+      properties:
+        msg:
+          type: string
+        code:
+          type: string
+    examples:
+      application/json:
+        msg: "The user is not found"
+        code: "1004"
+
+  500:
+    description: Internal server error while unblocking user

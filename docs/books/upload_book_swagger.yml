@@ -1,0 +1,79 @@
+tags:
+  - Books
+summary: Upload a book
+description: Uploads a book file (PDF or EPUB) and returns the book info with URLs for the frontend.
+consumes:
+  - multipart/form-data
+produces:
+  - application/json
+parameters:
+  - in: formData
+    name: file
+    required: true
+    type: file
+    description: The book file to upload (PDF or EPUB)
+  - in: formData
+    name: user_id
+    required: true
+    type: integer
+
+responses:
+  200:
+    description: Book uploaded successfully
+    schema:
+      type: object
+      properties:
+        message:
+          type: string
+        book:
+          type: object
+          properties:
+            id_book:
+              type: integer
+            title:
+              type: string
+            author:
+              type: string
+            file:
+              type: string
+              description: URL of the uploaded book file
+            cover:
+              type: string
+              description: URL of the uploaded cover image
+        uploaded_by_user:
+          type: integer
+    examples:
+      application/json:
+        message: "Libro subido exitosamente"
+        book:
+          id_book: 1
+          title: "Example Book"
+          author: "Author Name"
+          file: "/uploads/books/example.pdf"
+          cover: "/uploads/covers/example.jpg"
+        uploaded_by_user: 1
+
+  400:
+    description: Bad request (missing file, invalid file, or missing user_id)
+    schema:
+      type: object
+      properties:
+        msg:
+          type: string
+        code:
+          type: string
+    examples:
+      application/json:
+        msg: "Book file not found"
+        code: "4001"
+
+  500:
+    description: Internal server error
+    schema:
+      type: object
+      properties:
+        error:
+          type: string
+    examples:
+      application/json:
+        error: "Error saving book in database"

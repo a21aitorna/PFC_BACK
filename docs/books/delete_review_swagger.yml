@@ -1,0 +1,53 @@
+tags:
+  - Reviews
+summary: Delete a review by its ID
+description: Deletes a specific review. If deleted successfully, the book's average rating is updated.
+parameters:
+  - name: id_review
+    in: path
+    type: integer
+    required: true
+    example: 15
+
+responses:
+  200:
+    description: Review deleted successfully
+    schema:
+      type: object
+      properties:
+        msg:
+          type: string
+        code:
+          type: string
+    examples:
+      application/json:
+        msg: "Review deleted correctly"
+        code: "4021"
+
+  404:
+    description: Review not found
+    schema:
+      type: object
+      properties:
+        msg:
+          type: string
+        code:
+          type: string
+    examples:
+      application/json:
+        msg: "Review not found"
+        code: "4020"
+
+  500:
+    description: Error deleting the review
+    schema:
+      type: object
+      properties:
+        msg:
+          type: string
+        code:
+          type: string
+    examples:
+      application/json:
+        msg: "Error deleting the review"
+        code: "4022"
