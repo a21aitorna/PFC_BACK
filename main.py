@@ -3,7 +3,7 @@ from flask_cors import CORS
 from flask_jwt_extended import JWTManager
 from flasgger import Swagger
 
-from envs.dev.dev_env import config
+from envs.pro.pro_env import config
 
 from dao.categoria_dao import Categoria
 from dao.libro_categoria_dao import LibroCategoria
@@ -24,7 +24,7 @@ from utils.jwt_decorator import register_jwt_callbacks
 from tasks.automatic_tasks import automatic_unblock_users, automatic_delete_users
 
 app = Flask(__name__)
-app.config.from_object(config['dev'])
+app.config.from_object(config['pro'])
 
 CORS(app, resources={r"/api/*": {"origins": "http://localhost:3000"}})
 
