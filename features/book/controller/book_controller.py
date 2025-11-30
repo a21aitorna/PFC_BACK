@@ -108,10 +108,10 @@ def get_user_books_controller(user_id):
             "title": libro.title,
             "author": libro.author,
 
-            "cover": f"http://localhost:5000/api/books/cover/{libro.cover}"
+            "cover": f"http://pfcback-production.up.railway.app/api/books/cover/{libro.cover}"
                      if libro.cover else None,
 
-            "file": f"http://localhost:5000/api/books/file/{libro.file}"
+            "file": f"http://pfcback-production.up.railway.app/api/books/file/{libro.file}"
                     if libro.file else None,
             "upload_date": subida.upload_date.isoformat() if subida.upload_date else None,
             "rating": subida.rating or 0,
@@ -209,9 +209,9 @@ def get_detail_uploaded_book_controller(id_book):
             "id_book": book.id_book,
             "title": book.title,
             "author": book.author,
-            "cover": f"http://localhost:5000/api/books/cover/{book.cover}"
+            "cover": f"http://pfcback-production.up.railway.app/api/books/cover/{book.cover}"
                      if book.cover else None,
-            "file": f"http://localhost:5000/api/books/file/{book.file}"
+            "file": f"http://pfcback-production.up.railway.app/api/books/file/{book.file}"
                     if book.file else None,
             "upload_date": uploaded_book.upload_date.isoformat() if uploaded_book.upload_date else None,
             "rating": rating_by_five
