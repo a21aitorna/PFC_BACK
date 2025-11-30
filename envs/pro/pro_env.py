@@ -6,10 +6,14 @@ load_dotenv()
 class ProConfig:
     DEBUG = os.getenv('DEBUG_MODE', 'True') == 'True'
     SQLALCHEMY_TRACK_MODIFICATIONS = os.getenv('SQLALCHEMY_TRACK_MODIFICATIONS', 'False') == 'True'
+    
+    # --- Cambio aquí para incluir el puerto ---
     SQLALCHEMY_DATABASE_URI = (
         f"mysql+pymysql://{os.getenv('MYSQLUSER')}:{os.getenv('MYSQLPASSWORD')}"
-        f"@{os.getenv('MYSQLHOST')}/{os.getenv('MYSQLDATABASE')}"
+        f"@{os.getenv('MYSQLHOST')}:{os.getenv('MYSQLPORT', '3306')}/{os.getenv('MYSQLDATABASE')}"
     )
+    # ------------------------------------------
+
     JWT_SECRET_KEY = os.getenv('JWT_SECRET_KEY')
 
 config = {
