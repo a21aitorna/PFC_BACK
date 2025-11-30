@@ -1,3 +1,4 @@
+import pymysql
 from flask import Flask
 from flask_cors import CORS
 from flask_jwt_extended import JWTManager
@@ -22,6 +23,8 @@ from features.admin.routes.admin_routes import register_admin_routes
 from seed import seed_roles, seed_test_user, seed_admin_user
 from utils.jwt_decorator import register_jwt_callbacks
 from tasks.automatic_tasks import automatic_unblock_users, automatic_delete_users
+
+pymysql.install_as_MySQLdb()
 
 app = Flask(__name__)
 app.config.from_object(config['pro'])
