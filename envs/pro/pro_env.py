@@ -1,40 +1,39 @@
-import os
-from dotenv import load_dotenv
+# envs/pro/pro_env.py (Ajustado para Railway)
 
-# Solo carga .env si existe (desarrollo local)
-load_dotenv()
+import os
+
+def parse_api_url(env_key, default_value):
+    api_url_from_env = os.getenv(env_key)
+    if api_url_from_env:
+        return api_url_from_env.rstrip('/api')
+    return default_value
 
 class ProConfig:
-    DEBUG = os.getenv('DEBUG_MODE', 'True') == 'True'
+    DEBUG = os.getenv('DEBUG_MODE', 'False') == 'True'
+    API_BASE_URL = parse_api_url('API_BASE_URL', 'http://localhost:5000')
     SQLALCHEMY_TRACK_MODIFICATIONS = os.getenv('SQLALCHEMY_TRACK_MODIFICATIONS', 'False') == 'True'
 
-    # --- LECTURA Y CORRECCIÓN DE LA URI DE RAILWAY ---
-    # 1. Lee la URI inyectada por Railway (ej: 'mysql://user:pass@host/db')
-    raw_mysql_url = os.getenv('MYSQL_URL') or os.environ.get('MYSQL_URL')
-    
-    if not raw_mysql_url:
-        raise RuntimeError(
-            "La variable MYSQL_URL no está definida. "
-            "Agrega MYSQL_URL en tu .env o en las variables de entorno del contenedor"
-        )
-    
-    # 2. Reemplaza el prefijo por el dialecto PyMySQL explícito: mysql+pymysql://
-    # Esto garantiza que SQLAlchemy use el driver correcto.
-    SQLALCHEMY_DATABASE_URI = raw_mysql_url.replace('mysql://', 'mysql+pymysql://', 1)
-    
-    # -----------------------------------------------------
+    # Prioridad: DATABASE_URL > Variables separadas de MySQL
+    SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL')
 
-    JWT_SECRET_KEY = os.getenv('JWT_SECRET_KEY') or os.environ.get('JWT_SECRET_KEY')
+    if not SQLALCHEMY_DATABASE_URI:
+        _host = os.getenv('MYSQLHOST')
+        _port = os.getenv('MYSQLPORT', '3306')
+        _user = os.getenv('MYSQLUSER')
+        _pass = os.getenv('MYSQLPASSWORD')
+        _db = os.getenv('MYSQLDATABASE')
+
+        if _host and _user and _pass and _db:
+            # Forzar IPv4 si es necesario usando el host proporcionado por Railway
+            SQLALCHEMY_DATABASE_URI = f"mysql+pymysql://{_user}:{_pass}@{_host}:{_port}/{_db}"
+        else:
+            raise ValueError(
+                "SQLALCHEMY_DATABASE_URI no está configurada. "
+                "Compruebe MYSQLHOST, MYSQLUSER, MYSQLPASSWORD y MYSQLDATABASE en el entorno."
+            )
+
+    JWT_SECRET_KEY = os.getenv('JWT_SECRET_KEY', 'cambia_esto_en_produccion')
 
 config = {
     'pro': ProConfig
 }
-
-def get_database_config():
-    """Retorna los datos por separado si alguna función los necesita."""
-    return {
-        'MYSQLHOST': os.getenv('MYSQLHOST') or os.environ.get('MYSQLHOST'),
-        'MYSQLUSER': os.getenv('MYSQLUSER') or os.environ.get('MYSQLUSER'),
-        'MYSQLPASSWORD': os.getenv('MYSQLPASSWORD') or os.environ.get('MYSQLPASSWORD'),
-        'MYSQLDATABASE': os.getenv('MYSQLDATABASE') or os.environ.get('MYSQLDATABASE'),
-    }
