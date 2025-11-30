@@ -29,7 +29,7 @@ pymysql.install_as_MySQLdb()
 app = Flask(__name__)
 app.config.from_object(config['pro'])
 
-CORS(app, resources={r"/api/*": {"origins": "https://pfcfront-production-9ec6.up.railway.app"}})
+CORS(app, resources={r"/api/*": {"origins": "https://pfcfront-production-a352.up.railway.app"}})
 
 init_app(app)
 
