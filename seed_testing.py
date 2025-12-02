@@ -36,3 +36,20 @@ def seed_delete_user():
             answer = generate_password_hash("UserDelete")
         )
         save_user(user)
+        
+def seed_upload_books_user():
+    """Crea un usuario para subida de libros"""
+    existing_user = get_user_by_username("UploadBooks")
+    if not existing_user:
+        user = Persona(
+            id_role=2,
+            name="UploadBooks",
+            surname="User",
+            username = "UploadBooks",
+            password = generate_password_hash("TestUser123.."),
+            born_date=date(1999,9,3),
+            library_name="Upload Books",
+            security_question="UploadBooks",
+            answer = generate_password_hash("UploadBooks")
+        )
+        save_user(user)
