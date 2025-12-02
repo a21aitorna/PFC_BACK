@@ -44,20 +44,6 @@ responses:
           file: "/uploads/books/segundo_libro.epub"
           cover: null
 
-  400:
-    description: Bad request (invalid user_id)
-    schema:
-      type: object
-      properties:
-        msg:
-          type: string
-        code:
-          type: string
-    examples:
-      application/json:
-        msg: "Invalid user ID"
-        code: "4002"
-
   404:
     description: User not found
     schema:

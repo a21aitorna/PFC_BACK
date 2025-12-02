@@ -43,6 +43,7 @@ with app.app_context():
     BAD_REQUEST_SAME_PASSWORD_RECOVER_PASSWORD_MSG= jsonify({"msg": "Bad request. The new password is already in use", "code": "3008"}), HTTPStatus.BAD_REQUEST
     
     BAD_REQUEST_BOOK_NOT_FOUND_UPLOAD_BOOK = jsonify({"msg": "Bad request. File was not found","code":"4001"}), HTTPStatus.NOT_FOUND
+    BAD_REQUEST_USER_NOT_FOUND_UPLOAD_BOOK = jsonify({"msg": "Bad request. File was not found","code":"4002"}), HTTPStatus.NOT_FOUND
     BAD_REQUEST_INVALID_FILE_UPLOAD_BOOK = jsonify({"msg": "Bad request. Invalid file","code":"4003"}), HTTPStatus.BAD_REQUEST
     BAD_REQUEST_BOOK_NOT_FOUND_DELETE_MSG = jsonify({"msg": "Bad request. Book has not been found","code":"4004"}), HTTPStatus.NOT_FOUND
     BAD_REQUEST_USER_NOT_FOUND_DELETE_MSG = jsonify({"msg": "Bad request. User has not been found","code":"4005"}), HTTPStatus.NOT_FOUND
