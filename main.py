@@ -31,8 +31,10 @@ pymysql.install_as_MySQLdb()
 app = Flask(__name__)
 app.config.from_object(config['pro'])
 
-CORS(app, resources={r"/api/*": {"origins": "https://pfcfront-production-a352.up.railway.app"}})
-
+if os.getenv("ENV_KEY") == "pre":
+    CORS(app, resources={r"/api/*": {"origins": "https://pfcfront-pre.up.railway.app"}})
+elif os.getenv("ENV_KEY") == "pro":
+    CORS(app, resources={r"/api/*": {"origins": "https://pfcfront-production-a352.up.railway.app"}})
 init_app(app)
 
 with app.app_context():
