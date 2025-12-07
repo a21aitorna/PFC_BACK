@@ -7,7 +7,7 @@ from PIL import Image
 import fitz
 
 COVERS_PATH = os.path.join('uploads', 'covers')
-DEFAULT_COVER = os.path.join(COVERS_PATH, 'default_cover.jpg')
+DEFAULT_COVER = '/uploads/covers/default_cover.jpg'  # ruta pública
 ITEM_IMAGE = 9
 
 
@@ -16,6 +16,7 @@ def normalize_category(cat_name: str) -> str:
 
 
 def save_cover_image(image_data, output_path, convert_to_png=True):
+    """Guardar imagen y devolver ruta pública"""
     os.makedirs(os.path.dirname(output_path), exist_ok=True)
     try:
         if convert_to_png:
@@ -25,7 +26,11 @@ def save_cover_image(image_data, output_path, convert_to_png=True):
         else:
             with open(output_path, "wb") as f:
                 f.write(image_data)
-        return output_path
+
+        # Convertir ruta de disco a URL pública
+        public_path = '/' + output_path.replace('\\', '/')
+        return public_path
+
     except Exception as e:
         print(f"No se pudo guardar la portada: {e}")
         return DEFAULT_COVER
