@@ -41,9 +41,16 @@ from exceptions.http_status import (
     
 )
 
+ENV_KEY = os.getenv("ENV_KEY")
+if ENV_KEY=="pro":
+    BASE_URL = "http://pfcback-production.up.railway.app/api/books"
+elif ENV_KEY=="pre":
+    BASE_URL="https://pfcback-pre.up.railway.app/api/books"
+    
 ALLOWED_EXTENSIONS = {'pdf', 'epub'}
 
 BOOKS_FOLDER = os.path.join(os.getcwd(), "uploads", "books")
+
 
 def allowed_file(filename):
     """Revisa los formatos permitidos."""
@@ -108,10 +115,10 @@ def get_user_books_controller(user_id):
             "title": libro.title,
             "author": libro.author,
 
-            "cover": f"http://pfcback-production.up.railway.app/api/books/cover/{libro.cover}"
+            "cover": f"{BASE_URL}/cover/{libro.cover}"
                      if libro.cover else None,
 
-            "file": f"http://pfcback-production.up.railway.app/api/books/file/{libro.file}"
+            "file": f"{BASE_URL}/file/{libro.file}"
                     if libro.file else None,
             "upload_date": subida.upload_date.isoformat() if subida.upload_date else None,
             "rating": subida.rating or 0,
@@ -123,7 +130,6 @@ def get_user_books_controller(user_id):
 def get_book_cover_controller(filename):
     """Devuelve una portada desde uploads/covers."""
 
-    # Bloqueo básico de path traversal
     if ".." in filename or filename.startswith("/"):
         response = make_response(*COVER_NOT_FOUND_MSG)
         abort(response)
@@ -213,9 +219,9 @@ def get_detail_uploaded_book_controller(id_book):
             "id_book": book.id_book,
             "title": book.title,
             "author": book.author,
-            "cover": f"http://pfcback-production.up.railway.app/api/books/cover/{book.cover}"
+            "cover": f"{BASE_URL}/cover/{book.cover}"
                      if book.cover else None,
-            "file": f"http://pfcback-production.up.railway.app/api/books/file/{book.file}"
+            "file": f"{BASE_URL}/file/{book.file}"
                     if book.file else None,
             "upload_date": uploaded_book.upload_date.isoformat() if uploaded_book.upload_date else None,
             "rating": rating_by_five
