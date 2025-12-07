@@ -31,7 +31,7 @@ def save_cover_image(image_data, output_path, convert_to_png=True):
         return DEFAULT_COVER
 
 
-# Obtiene la portada leyendo el EPUB directamente como ZIP
+# ✅ FUNCIÓN NUEVA: obtiene la portada leyendo el EPUB directamente como ZIP
 def extract_cover_from_epub_zip(book_path, book_filename):
     try:
         with zipfile.ZipFile(book_path, 'r') as z:
@@ -151,7 +151,7 @@ def extract_epub_metadata(book_path, book_filename):
         subjects = book.get_metadata('DC', 'subject')
         categories = [normalize_category(s[0]) for s in subjects if s and s[0].strip()] if subjects else []
 
-        # Extracción de portada
+        # ✅ NUEVA extracción de portada (fiable)
         cover_path = extract_cover_from_epub_zip(book_path, book_filename)
 
         return {
@@ -206,7 +206,10 @@ def extract_pdf_metadata(book_path, book_filename):
 
 
 def extract_metadata(book_path, book_filename):
-
-, book_filename)
+    ext = os.path.splitext(book_filename)[1].lower()
+    if ext == '.epub':
+        return extract_epub_metadata(book_path, book_filename)
+    elif ext == '.pdf':
+        return extract_pdf_metadata(book_path, book_filename)
     else:
         raise ValueError("Formato no permitido")
