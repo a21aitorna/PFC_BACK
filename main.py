@@ -1,3 +1,4 @@
+import os
 import pymysql
 from flask import Flask
 from flask_cors import CORS
@@ -21,6 +22,7 @@ from features.user.routes.user_routes import register_user_routes
 from features.book.routes.book_routes import register_book_routes
 from features.admin.routes.admin_routes import register_admin_routes
 from seed import seed_roles, seed_test_user, seed_admin_user
+from seed_testing import seed_block_user, seed_delete_user, seed_upload_books_user
 from utils.jwt_decorator import register_jwt_callbacks
 from tasks.automatic_tasks import automatic_unblock_users, automatic_delete_users
 
@@ -29,8 +31,10 @@ pymysql.install_as_MySQLdb()
 app = Flask(__name__)
 app.config.from_object(config['pro'])
 
-CORS(app, resources={r"/api/*": {"origins": "https://pfcfront-production-a352.up.railway.app"}})
-
+if os.getenv("ENV_KEY") == "pre":
+    CORS(app, resources={r"/api/*": {"origins": "https://pfcfront-pre.up.railway.app"}})
+elif os.getenv("ENV_KEY") == "pro":
+    CORS(app, resources={r"/api/*": {"origins": "https://pfcfront-production-a352.up.railway.app"}})
 init_app(app)
 
 with app.app_context():
@@ -39,6 +43,10 @@ with app.app_context():
     seed_admin_user()
     automatic_unblock_users()
     automatic_delete_users()
+    if os.getenv("ENV_KEY") == "pre":
+        seed_block_user()
+        seed_delete_user()
+        seed_upload_books_user()
     
 swagger = Swagger(app)
 jwt = JWTManager(app)

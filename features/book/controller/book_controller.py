@@ -122,7 +122,11 @@ def get_user_books_controller(user_id):
 
 def get_book_cover_controller(filename):
     """Devuelve una portada desde uploads/covers."""
-    filename = secure_filename(filename)
+
+    # Bloqueo básico de path traversal
+    if ".." in filename or filename.startswith("/"):
+        response = make_response(*COVER_NOT_FOUND_MSG)
+        abort(response)
 
     base_folder = os.path.join(os.path.dirname(__file__), '..', '..', '..', 'uploads', 'covers')
     file_path = os.path.join(base_folder, filename)
