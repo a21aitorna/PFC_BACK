@@ -7,7 +7,7 @@ from PIL import Image
 import fitz
 
 COVERS_PATH = os.path.join('uploads', 'covers')
-DEFAULT_COVER = '/uploads/covers/default_cover.jpg'  # ruta pública
+DEFAULT_COVER = os.path.join(COVERS_PATH, 'default_cover.jpg')
 ITEM_IMAGE = 9
 
 
@@ -16,7 +16,6 @@ def normalize_category(cat_name: str) -> str:
 
 
 def save_cover_image(image_data, output_path, convert_to_png=True):
-    """Guardar imagen y devolver ruta pública"""
     os.makedirs(os.path.dirname(output_path), exist_ok=True)
     try:
         if convert_to_png:
@@ -26,11 +25,7 @@ def save_cover_image(image_data, output_path, convert_to_png=True):
         else:
             with open(output_path, "wb") as f:
                 f.write(image_data)
-
-        # Convertir ruta de disco a URL pública
-        public_path = '/' + output_path.replace('\\', '/')
-        return public_path
-
+        return output_path
     except Exception as e:
         print(f"No se pudo guardar la portada: {e}")
         return DEFAULT_COVER
@@ -211,10 +206,7 @@ def extract_pdf_metadata(book_path, book_filename):
 
 
 def extract_metadata(book_path, book_filename):
-    ext = os.path.splitext(book_filename)[1].lower()
-    if ext == '.epub':
-        return extract_epub_metadata(book_path, book_filename)
-    elif ext == '.pdf':
-        return extract_pdf_metadata(book_path, book_filename)
+
+, book_filename)
     else:
         raise ValueError("Formato no permitido")
