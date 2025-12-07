@@ -41,8 +41,7 @@ from exceptions.http_status import (
     
 )
 
-ENV_KEY = os.environ.get("ENV_KEY")
-
+ENV_KEY = os.getenv("ENV_KEY")
 if ENV_KEY=="pro":
     BASE_URL = "http://pfcback-production.up.railway.app/api/books"
 elif ENV_KEY=="pre":
