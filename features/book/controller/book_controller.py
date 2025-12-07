@@ -219,9 +219,9 @@ def get_detail_uploaded_book_controller(id_book):
             "id_book": book.id_book,
             "title": book.title,
             "author": book.author,
-            "cover": f"http://pfcback-production.up.railway.app/api/books/cover/{book.cover}"
+            "cover": f"{BASE_URL}/cover/{book.cover}"
                      if book.cover else None,
-            "file": f"http://pfcback-production.up.railway.app/api/books/file/{book.file}"
+            "file": f"{BASE_URL}/file/{book.file}"
                     if book.file else None,
             "upload_date": uploaded_book.upload_date.isoformat() if uploaded_book.upload_date else None,
             "rating": rating_by_five
