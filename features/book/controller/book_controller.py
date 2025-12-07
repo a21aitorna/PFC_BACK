@@ -46,7 +46,7 @@ ENV_KEY = os.environ.get("ENV_KEY")
 if ENV_KEY=="pro":
     BASE_URL = "http://pfcback-production.up.railway.app/api/books"
 elif ENV_KEY=="pre":
-    BASE_URL="https://pfcfront-pre.up.railway.app/api/books"
+    BASE_URL="https://pfcback-pre.up.railway.app/api/books"
     
 ALLOWED_EXTENSIONS = {'pdf', 'epub'}
 
@@ -116,10 +116,10 @@ def get_user_books_controller(user_id):
             "title": libro.title,
             "author": libro.author,
 
-            "cover": f"{BASE_URL}/{libro.cover}"
+            "cover": f"{BASE_URL}/cover/{libro.cover}"
                      if libro.cover else None,
 
-            "file": f"{BASE_URL}/{libro.file}"
+            "file": f"{BASE_URL}/file/{libro.file}"
                     if libro.file else None,
             "upload_date": subida.upload_date.isoformat() if subida.upload_date else None,
             "rating": subida.rating or 0,
