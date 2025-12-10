@@ -22,7 +22,7 @@ from features.user.routes.user_routes import register_user_routes
 from features.book.routes.book_routes import register_book_routes
 from features.admin.routes.admin_routes import register_admin_routes
 from seed import seed_roles, seed_test_user, seed_admin_user
-from seed_testing import seed_block_user, seed_delete_user, seed_upload_books_user
+from seed_testing import seed_block_user, seed_delete_user, seed_upload_books_user, seed_modify_password_user, seed_search_user
 from utils.jwt_decorator import register_jwt_callbacks
 from tasks.automatic_tasks import automatic_unblock_users, automatic_delete_users
 
@@ -47,6 +47,8 @@ with app.app_context():
         seed_block_user()
         seed_delete_user()
         seed_upload_books_user()
+        seed_modify_password_user()
+        seed_search_user()
     
 swagger = Swagger(app)
 jwt = JWTManager(app)

@@ -53,3 +53,37 @@ def seed_upload_books_user():
             answer = generate_password_hash("UploadBooks")
         )
         save_user(user)
+        
+def seed_modify_password_user():
+    """Crea un usuario para modificar la contraseña"""
+    existing_user = get_user_by_username("ModifyPassword")
+    if not existing_user:
+        user = Persona(
+            id_role=2,
+            name="ModifyPassword",
+            surname="User",
+            username = "ModifyPassword",
+            password = generate_password_hash("TestUser123.."),
+            born_date=date(1999,9,3),
+            library_name="ModifyPassword",
+            security_question="ModifyPassword",
+            answer = generate_password_hash("ModifyPassword")
+        )
+        save_user(user)  
+        
+def seed_search_user():
+    """Crea un usuario para realizar la búsqueda de este"""
+    existing_user = get_user_by_username("SearchUser")
+    if not existing_user:
+        user = Persona(
+            id_role=2,
+            name="SearchUser",
+            surname="User",
+            username = "SearchUser",
+            password = generate_password_hash("TestUser123.."),
+            born_date=date(1999,9,3),
+            library_name="LibraySearch",
+            security_question="SearchUser",
+            answer = generate_password_hash("SearchUser")
+        )
+        save_user(user)                          
